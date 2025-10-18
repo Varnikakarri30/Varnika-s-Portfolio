@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varnika Karri - Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Unicorn Studio Script -->
+    <script type="text/javascript">
+    // Original Unicorn Studio initialization
+    !function(){
+        if(!window.UnicornStudio){
+            window.UnicornStudio={isInitialized:!1};
+            var i=document.createElement("script");
+            i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.30/dist/unicornStudio.umds.js";
+            i.onload=function(){
+                console.log('Unicorn Studio script loaded');
+                if(!window.UnicornStudio.isInitialized){
+                    console.log('Initializing Unicorn Studio...');
+                    UnicornStudio.init();
+                    window.UnicornStudio.isInitialized=!0;
+                    console.log('Unicorn Studio initialized');
+                }
+            };
+            i.onerror=function(){
+                console.error('Failed to load Unicorn Studio script');
+            };
+            (document.head || document.body).appendChild(i);
+        }
+    }();
+    </script>
+</head>
+<body>
+    <!-- Vertical Icons Bar -->
+    <div class="icons-bar">
+        <div class="icon-item" id="homeIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Home</span>
+        </div>
+        
+        <div class="icon-item" id="educationIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 10V6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V10C2 11.1 2.9 12 4 12H20C21.1 12 22 11.1 22 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 10L12 16L22 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Education</span>
+        </div>
+        
+        <div class="icon-item" id="certificationIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Certifications</span>
+        </div>
+        
+        <div class="icon-item" id="projectsIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 7V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 7H21V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 11H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 15H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Projects</span>
+        </div>
+        
+        <div class="icon-item" id="contactIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Contact</span>
+        </div>
+        
+        <div class="icon-item" id="githubIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 19C4 20.5 4 16.5 2 16M16 22V18C16.0014 17.1137 15.7083 16.2528 15.1612 15.5523C14.6141 14.8519 13.8419 14.3516 13 14.13C15 13.13 17 12.13 17 9.13C17.0014 8.2437 16.7083 7.3828 16.1612 6.6823C15.6141 5.9819 14.8419 5.4816 14 5.26C14 5.26 13 5.26 12 6.26C12 6.26 11 5.26 10 5.26C9.15812 5.4816 8.38588 5.9819 7.83876 6.6823C7.29164 7.3828 6.99856 8.2437 7 9.13C7 12.13 9 13.13 11 14.13C10.1581 14.3516 9.38588 14.8519 8.83876 15.5523C8.29164 16.2528 7.99856 17.1137 8 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">GitHub</span>
+        </div>
+        
+        <div class="icon-item" id="linkedinIcon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">LinkedIn</span>
+        </div>
+    </div>
+
+    <!-- Landing Page -->
+    <section class="hero" id="hero">
+        <!-- Unicorn Studio Component -->
+        <div 
+            data-us-project="9nvqSAP7uAa1rXgAJ3dh" 
+            data-us-dpi="1.5"
+            data-us-scale="1"
+            data-us-fps="60"
+            data-us-alttext="Interactive Portfolio Animation"
+            data-us-arialabel="Interactive Portfolio Animation"
+            class="unicorn-studio-component"
+            role="img"
+            aria-label="Interactive Portfolio Animation">
+        </div>
+        
+        <!-- Landing Page Content -->
+        <div class="landing-content">
+            <div class="landing-text">
+                <h1 class="landing-title">Hi there, I'm Varnika</h1>
+                <p class="landing-description">
+                    A passionate developer, designer, and innovator creating digital experiences 
+                    that bridge creativity with technology. I love building solutions that make 
+                    a difference and bring ideas to life.
+                </p>
+                <div class="landing-buttons">
+                    <a href="recruitor.html" class="landing-btn recruitor-btn">
+                        <span>Recruitor</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="visitor.html" class="landing-btn visitor-btn">
+                        <span>Visitor</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

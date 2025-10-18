@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievement Map - Varnika Karri</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .achievement-page {
+            height: 100vh;
+            background: radial-gradient(1200px 800px at 10% 10%, rgba(100,255,218,0.08), transparent 60%),
+                        radial-gradient(1000px 700px at 90% 20%, rgba(139,92,246,0.08), transparent 60%),
+                        linear-gradient(135deg, #0a0a0a 0%, #0d1223 45%, #0a1630 100%);
+            position: relative;
+            padding: 1rem;
+            overflow: hidden;
+            transition: filter 0.3s ease;
+        }
+
+        .achievement-page.blurred {
+            filter: blur(8px);
+        }
+
+        .achievement-page::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(1200px 600px at 0% 100%, rgba(59,130,246,0.10), transparent 60%),
+                radial-gradient(900px 500px at 100% 0%, rgba(139,92,246,0.10), transparent 60%),
+                radial-gradient(900px 700px at 50% 50%, rgba(100,255,218,0.06), transparent 65%);
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(2px) saturate(110%);
+            animation: auroraShift 14s ease-in-out infinite alternate;
+        }
+
+        .achievement-page::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 60px 60px, 60px 60px;
+            mask-image: radial-gradient(closest-side, rgba(255,255,255,0.4), transparent 85%);
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes auroraShift {
+            0% { transform: translate3d(0,0,0) scale(1); }
+            50% { transform: translate3d(-2%, 1%, 0) scale(1.02); }
+            100% { transform: translate3d(2%, -1%, 0) scale(1.03); }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        /* Company Logos Map */
+        .achievement-map {
+            position: relative;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .curved-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Path message style - hidden */
+        .path-message {
+            display: none;
+        }
+
+        /* HTML runner dot using motion path */
+        .runner-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #64FFDA;
+            box-shadow: 0 0 12px rgba(100,255,218,0.8), 0 0 24px rgba(100,255,218,0.5);
+            z-index: 3;
+            translate: -50% -50%;
+            will-change: offset-distance, transform;
+            offset-rotate: 0deg;
+        }
+
+        /* Company Logos */
+        .company-logo {
+            position: absolute;
+            width: 150px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(50px) scale(0.3);
+            z-index: 2;
+        }
+
+        .company-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .company-logo:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        .company-logo:hover img {
+            filter: brightness(1.2);
+        }
+
+        /* Hover Button */
+        .company-logo .hover-button {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111826;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .company-logo .hover-button::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+
+        .company-logo:hover .hover-button {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        /* Certification Carousel Modal */
+        .carousel-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .carousel-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-modal.active .carousel-container {
+            transform: scale(1);
+        }
+
+        .carousel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .carousel-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .close-carousel {
+            background: #ff4757;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
+            z-index: 1001;
+        }
+
+        .close-carousel:hover {
+            background: #ff3742;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4);
+        }
+
+        .close-carousel:active {
+            transform: scale(0.95);
+        }
+
+        .next-company-btn {
+            background: #3742fa;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(55, 66, 250, 0.3);
+            z-index: 1001;
+        }
+
+        .next-company-btn:hover {
+            background: #2f3542;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(55, 66, 250, 0.4);
+        }
+
+        .next-company-btn:active {
+            transform: scale(0.95);
+        }
+
+        .carousel-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .certification-slide {
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .certification-slide {
+            position: relative;
+        }
+
+        .certification-slide img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-icon {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+
+        .download-icon:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-btn {
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: #555;
+            transform: scale(1.1);
+        }
+
+        .carousel-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #333;
+        }
+
+        .company-logo.animate {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: smoothPop 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
+        }
+
+        @keyframes smoothPop {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.5);
+                filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+            }
+            30% {
+                opacity: 0.6;
+                transform: translateY(20px) scale(0.8);
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+            }
+            60% {
+                opacity: 0.9;
+                transform: translateY(-5px) scale(1.1);
+                filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.7));
+            }
+            80% {
+                opacity: 1;
+                transform: translateY(2px) scale(0.98);
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+            }
+        }
+
+        /* Curved Layout Positioning - 4 top, 3 bottom */
+        .cisco {
+            bottom: 25%;
+            left: 8%;
+        }
+
+        .infosys {
+            bottom: 25%;
+            left: 35%;
+        }
+
+        .redhat {
+            bottom: 45%;
+            left: 35%;
+        }
+
+        .microsoft {
+            top: 22%;
+            left: 65%;
+        }
+
+        .google {
+            top: 5%;
+            right: 12%;
+        }
+
+        .hackerrank {
+            top: 30%;
+            right: 5%;
+        }
+
+        .oracle {
+            top: 45%;
+            right: 25%;
+        }
+
+        /* Special positioning for Google logo hover button */
+        .google .hover-button {
+            top: -60px;
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #64FFDA;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            top: 40%;
+            left: 40%;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(3) {
+            top: 60%;
+            left: 60%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(4) {
+            top: 80%;
+            left: 80%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-20px);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .achievement-map {
+                height: 60vh;
+            }
+
+            .company-node {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .achievement-cards {
+                position: relative;
+                right: auto;
+                top: auto;
+                margin-top: 2rem;
+            }
+
+            .achievement-card {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="achievement-page">
+        <!-- Floating Particles -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+
+        <!-- Back Button -->
+        <a href="recruitor.html" class="back-button">
+            ← Backtrack
+        </a>
+
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1 class="title">Achievement Map</h1>
+                <p class="subtitle">
+                    A visual journey through my professional certifications and achievements with leading technology companies.
+                </p>
+            </div>
+
+            <!-- Company Logos Map -->
+            <div class="achievement-map">
+                <!-- Curved Path -->
+                <svg class="curved-path" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path id="cert-path" d="M 100 680 Q 300 580 500 480 Q 700 380 900 280 Q 1100 180 1000 100" 
+                          stroke="url(#gradient)" 
+                          stroke-width="3" 
+                          fill="none" 
+                          stroke-dasharray="10,5"
+                          opacity="0.6"/>
+                    <!-- (Old SVG dot replaced by HTML runner dot) -->
+                    <circle id="path-dot" r="6" fill="#64FFDA" cx="100" cy="680" style="display:none" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#64FFDA;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <!-- Moving dot message overlay (positioned by JS) -->
+                <div class="path-message" id="pathMessage" aria-hidden="true"></div>
+                <!-- HTML runner dot that follows the path using motion-path -->
+                <div class="runner-dot" id="runnerDot" aria-hidden="true"></div>
+
+                <!-- Company Logos -->
+                <div class="company-logo cisco" data-company="Cisco">
+                    <img src="cisco-logo.png" alt="Cisco">
+                    <div class="hover-button">View all certifications from Cisco</div>
+                </div>
+
+                <div class="company-logo infosys" data-company="Infosys">
+                    <img src="infosys-logo.png" alt="Infosys">
+                    <div class="hover-button">View all certifications from Infosys</div>
+                </div>
+
+                <div class="company-logo redhat" data-company="Red Hat">
+                    <img src="redhalogo-removebg-preview.png" alt="Red Hat">
+                    <div class="hover-button">View all certifications from Red Hat</div>
+                </div>
+
+                <div class="company-logo microsoft" data-company="Microsoft">
+                    <img src="microsoft-logo.png" alt="Microsoft">
+                    <div class="hover-button">View all certifications from Microsoft</div>
+                </div>
+
+                <div class="company-logo google" data-company="Google">
+                    <img src="google-logo.png" alt="Google">
+                    <div class="hover-button">View all certifications from Google</div>
+                </div>
+
+                <div class="company-logo hackerrank" data-company="HackerRank">
+                    <img src="hackerrank.png" alt="HackerRank">
+                    <div class="hover-button">View all certifications from HackerRank</div>
+                </div>
+
+                <div class="company-logo oracle" data-company="Oracle">
+                    <img src="oracle-logo.png" alt="Oracle">
+                    <div class="hover-button">View all certifications from Oracle</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certification Carousel Modal -->
+    <div class="carousel-modal" id="carouselModal">
+        <div class="carousel-container">
+            <div class="carousel-header">
+                <h2 class="carousel-title" id="carouselTitle">Certifications</h2>
+                <div class="header-buttons">
+                    <button class="next-company-btn" id="nextCompanyBtn" title="Next Company">→</button>
+                    <button class="close-carousel" id="closeCarousel" title="Close">&times;</button>
+                </div>
+            </div>
+            
+            <div class="carousel-slider">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Certification slides will be dynamically added here -->
+                </div>
+            </div>
+            
+            <div class="carousel-nav">
+                <button class="carousel-btn" id="prevBtn">‹</button>
+                <button class="carousel-btn" id="nextBtn">›</button>
+            </div>
+            
+            <div class="carousel-dots" id="carouselDots">
+                <!-- Dots will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Certification data for each company
+        const certifications = {
+            'Cisco': [
+                { name: 'Cisco Certification 1', image: 'cisco1.png' },
+                { name: 'Cisco Certification 2', image: 'cisco2.png' },
+                { name: 'Cisco Certification 3', image: 'cisco3.png' },
+                { name: 'Cisco Certification 5', image: 'cisco5.png' }
+            ],
+            'Infosys': [
+                { name: 'Infosys Certification 1', image: 'infosys1.png' },
+                { name: 'Infosys Certification 2', image: 'infosys2.png' },
+                { name: 'Infosys Design Thinking', image: 'infosys_design_thinking.pdf' },
+                { name: 'Infosys Database & SQL', image: 'infosys_database&sql.pdf' },
+                { name: 'Infosys Operating Systems', image: 'infosys_operating_Systems.pdf' },
+                { name: 'Infosys HTML5', image: 'infosys_HTML5.pdf' },
+                { name: 'Infosys CSS3', image: 'iinfosys_css3.pdf' }
+            ],
+            'Red Hat': [
+                { name: 'Red Hat Certification 1', image: 'redhat1.jpeg' },
+                { name: 'Red Hat Certification 2', image: 'redhat2.jpeg' },
+                { name: 'Red Hat Certification 3', image: 'redhat3.png' },
+                { name: 'Red Hat Certification 4', image: 'redhat4.png' }
+            ],
+            'Microsoft': [
+                { name: 'Microsoft IT Specialist', image: 'microsoft1.png' }
+            ],
+            'Google': [
+                { name: 'Python Essentials Badge', image: 'Python_Essentials_1_Badge20241029-27-lr30gv.pdf' }
+            ],
+            'HackerRank': [
+                { name: 'HackerRank Certification 1', image: 'hackerrank1.png' },
+                { name: 'HackerRank Certification 3', image: 'hackerrank3.png' }
+            ],
+            'Oracle': [
+                { name: 'Oracle Certification 1', image: 'oracle1.png' },
+                { name: 'Oracle Java Foundations', image: 'oracle_java_foundations.pdf' }
+            ]
+        };
+
+        let currentSlide = 0;
+        let currentCertifications = [];
+        let currentCompanyIndex = 0;
+        const companyOrder = ['Cisco', 'Infosys', 'Red Hat', 'Oracle', 'Microsoft', 'HackerRank', 'Google'];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth bottom-to-up animation sequence
+            const companyOrder = ['.cisco', '.infosys', '.redhat', '.oracle', '.microsoft', '.hackerrank', '.google'];
+            const companyLogos = document.querySelectorAll('.company-logo');
+            const path = document.getElementById('cert-path');
+            const runnerDot = document.getElementById('runnerDot');
+
+            const animationDelay = 1200; // ms between each logo appearance
+            const totalAnimationTime = companyOrder.length * animationDelay + 2000; // Total time for all animations
+
+            function setupRunner() {
+                // Continuous smooth movement along the path
+                runnerDot.style.offsetPath = `path('${path.getAttribute('d')}')`;
+                runnerDot.style.offsetDistance = '0%';
+                
+                // Smooth continuous animation along the path
+                const anim = runnerDot.animate([
+                    { offsetDistance: '0%', transform: 'scale(1)' },
+                    { offsetDistance: '100%', transform: 'scale(1)' }
+                ], {
+                    duration: totalAnimationTime,
+                    easing: 'linear',
+                    fill: 'forwards'
+                });
+
+                // Smooth bottom-to-up sequence with staggered timing
+                for (let i = 0; i < companyOrder.length; i++) {
+                    const sel = companyOrder[i];
+                    const el = document.querySelector(sel);
+                    
+                    // Animate logo appearance with smooth timing
+                    setTimeout(() => {
+                        if (el) {
+                            el.classList.add('animate');
+                        }
+                    }, i * animationDelay);
+                }
+                
+                return anim;
+            }
+
+            // Start after load
+            setTimeout(setupRunner, 500);
+
+            // Add hover effects and interactions
+            companyLogos.forEach(logo => {
+                logo.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.2)';
+                    this.style.zIndex = '10';
+                });
+
+                logo.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.zIndex = '2';
+                });
+
+                logo.addEventListener('click', function() {
+                    const company = this.getAttribute('data-company');
+                    openCarousel(company);
+                });
+            });
+
+            // Carousel functionality
+            const carouselModal = document.getElementById('carouselModal');
+            const closeCarousel = document.getElementById('closeCarousel');
+            const nextCompanyBtn = document.getElementById('nextCompanyBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const carouselTrack = document.getElementById('carouselTrack');
+            const carouselDots = document.getElementById('carouselDots');
+            const carouselTitle = document.getElementById('carouselTitle');
+
+            function openCarousel(company) {
+                currentCompanyIndex = companyOrder.indexOf(company);
+                currentCertifications = certifications[company] || [];
+                if (currentCertifications.length === 0) {
+                    alert(`No certifications available for ${company} yet.`);
+                    return;
+                }
+
+                carouselTitle.textContent = `${company} Certifications`;
+                currentSlide = 0;
+                renderCarousel();
+                carouselModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Add blur effect to background
+                const achievementPage = document.querySelector('.achievement-page');
+                achievementPage.classList.add('blurred');
+            }
+
+            function nextCompany() {
+                currentCompanyIndex = (currentCompanyIndex + 1) % companyOrder.length;
+                const nextCompany = companyOrder[currentCompanyIndex];
+                openCarousel(nextCompany);
+            }
+
+            function renderCarousel() {
+                // Clear existing content
+                carouselTrack.innerHTML = '';
+                carouselDots.innerHTML = '';
+
+                // Add slides
+                currentCertifications.forEach((cert, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'certification-slide';
+                    slide.innerHTML = `
+                        <img src="${cert.image}" alt="${cert.name}" 
+                             onerror="this.src='https://via.placeholder.com/400x300/f0f0f0/333?text=${encodeURIComponent(cert.name)}'">
+                        <button class="download-icon" onclick="downloadCertificate('${cert.image}', '${cert.name}')" title="Download Certificate">
+                            ⬇
+                        </button>
+                    `;
+                    carouselTrack.appendChild(slide);
+
+                    // Add dot
+                    const dot = document.createElement('button');
+                    dot.className = 'carousel-dot';
+                    if (index === 0) dot.classList.add('active');
+                    dot.addEventListener('click', () => goToSlide(index));
+                    carouselDots.appendChild(dot);
+                });
+
+                updateCarousel();
+            }
+
+            function updateCarousel() {
+                const slideWidth = 100;
+                carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+
+                // Update navigation buttons
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === currentCertifications.length - 1;
+            }
+
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                updateCarousel();
+            }
+
+            function nextSlide() {
+                if (currentSlide < currentCertifications.length - 1) {
+                    currentSlide++;
+                    updateCarousel();
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateCarousel();
+                }
+            }
+
+            function closeCarouselModal() {
+                carouselModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                // Remove blur effect from background
+                const achievementPage = document.querySelector('.achievement-page');
+                achievementPage.classList.remove('blurred');
+            }
+
+            // Event listeners
+            closeCarousel.addEventListener('click', closeCarouselModal);
+            nextCompanyBtn.addEventListener('click', nextCompany);
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+
+            // Close modal when clicking outside
+            carouselModal.addEventListener('click', function(e) {
+                if (e.target === carouselModal) {
+                    closeCarouselModal();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (carouselModal.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closeCarouselModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        prevSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        nextSlide();
+                    }
+                }
+            });
+
+            // Add floating animation to particles
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                particle.style.animationDelay = `${index * 0.5}s`;
+            });
+        });
+
+        // Download certificate function
+        function downloadCertificate(imagePath, certificateName) {
+            const link = document.createElement('a');
+            link.href = imagePath;
+            link.download = certificateName.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.' + imagePath.split('.').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
