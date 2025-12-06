@@ -36,6 +36,11 @@ const corsOptions = {
       return callback(null, true);
     }
     
+    // Specifically allow the frontend URL
+    if (origin === 'https://varnika-s-portfolio-web.vercel.app') {
+      return callback(null, true);
+    }
+    
     // Also check environment variable
     const allowedOrigins = process.env.CORS_ORIGIN?.split(',').map(o => o.trim()) || [];
     for (const allowed of allowedOrigins) {
