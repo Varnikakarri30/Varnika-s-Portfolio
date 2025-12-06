@@ -193,9 +193,15 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Mailer server listening on http://localhost:${port}`);
-});
+// For Vercel serverless functions, export the app
+export default app;
+
+// For local development, listen on port
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`Mailer server listening on http://localhost:${port}`);
+  });
+}
 
 
 
