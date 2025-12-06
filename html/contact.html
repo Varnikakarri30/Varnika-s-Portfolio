@@ -891,8 +891,8 @@
             };
 
             try {
-                // Backend URL - use production domain
-                const backendUrl = 'https://server-five-indol.vercel.app';
+                // Backend URL - use latest deployment
+                const backendUrl = 'https://server-1cyk9049d-varnika-karris-projects.vercel.app';
                 const response = await fetch(`${backendUrl}/api/contact`, {
                     method: 'POST',
                     headers: {
@@ -901,6 +901,12 @@
                     body: JSON.stringify(formData)
                 });
 
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Backend error:', response.status, errorText);
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
                 const result = await response.json();
 
                 if (result.ok) {
@@ -923,6 +929,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
+                console.error('Error details:', error.message);
                 submitBtn.innerHTML = '<span>Error - Try Again</span>';
                 submitBtn.style.background = 'linear-gradient(135deg, #660000 0%, #880000 100%)';
                 
