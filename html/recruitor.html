@@ -1817,7 +1817,9 @@
             const payload = { name, email, question };
             
             // Use production backend URL
-            const endpoint = 'https://server-19cixkwhp-varnika-karris-projects.vercel.app/api/question';
+            // Backend URL - use environment variable or fallback
+            const backendUrl = 'https://server-jcn1ncuip-varnika-karris-projects.vercel.app';
+            const endpoint = `${backendUrl}/api/question`;
             
             console.log('Submitting question to:', endpoint);
             console.log('Payload:', payload);

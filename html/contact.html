@@ -891,7 +891,9 @@
             };
 
             try {
-                const response = await fetch('https://server-19cixkwhp-varnika-karris-projects.vercel.app/api/contact', {
+                // Backend URL - use environment variable or fallback
+                const backendUrl = 'https://server-jcn1ncuip-varnika-karris-projects.vercel.app';
+                const response = await fetch(`${backendUrl}/api/contact`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
