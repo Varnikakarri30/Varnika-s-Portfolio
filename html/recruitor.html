@@ -1816,9 +1816,8 @@
 
             const payload = { name, email, question };
             
-            // Use the same hostname but port 3001 for API
-            const currentHost = window.location.hostname;
-            const endpoint = `http://${currentHost}:3001/api/question`;
+            // Use production backend URL
+            const endpoint = 'https://server-e0c6d0upn-varnika-karris-projects.vercel.app/api/question';
             
             console.log('Submitting question to:', endpoint);
             console.log('Payload:', payload);
