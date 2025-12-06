@@ -4,16 +4,48 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 // Middlewares
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false, // Allow inline scripts for Unicorn Studio
+}));
 app.use(express.json());
-app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || '*'}));
+// CORS configuration - allow localhost and 127.0.0.1 from any port
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost and 127.0.0.1 from any port
+    if (origin.match(/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/)) {
+      return callback(null, true);
+    }
+    
+    // Also check environment variable
+    const allowedOrigins = process.env.CORS_ORIGIN?.split(',').map(o => o.trim()) || [];
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // Allow all for development (remove in production)
+    callback(null, true);
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
+
+// Serve static files from parent directory (portfolio root)
+app.use(express.static(path.join(__dirname, '..')));
 
 const limiter = rateLimit({
   windowMs: 60 * 1000,
@@ -34,17 +66,25 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Root route - serve index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
 // Health check
 app.get('/api/health', async (req, res) => {
   try {
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      return res.json({ ok: true, smtp: 'not configured' });
+    }
     await transporter.verify();
-    res.json({ ok: true });
+    res.json({ ok: true, smtp: 'ready' });
   } catch (err) {
-    res.status(500).json({ ok: false, error: 'SMTP not ready' });
+    res.json({ ok: true, smtp: 'not ready', warning: 'SMTP verification failed' });
   }
 });
 
-// Question endpoint
+// Question endpoint (from recruitor page)
 app.post('/api/question', async (req, res) => {
   const { name, email, question } = req.body || {};
 
@@ -55,16 +95,78 @@ app.post('/api/question', async (req, res) => {
 
   // Compose email
   const toAddress = process.env.TO_EMAIL || 'varnikakarri30@gmail.com';
-  const subject = `New Portfolio Question from ${name}`;
-  const text = `You have a new question from your portfolio form.\n\nName: ${name}\nEmail: ${email}\n\nQuestion:\n${question}`;
+  const fromAddress = process.env.FROM_EMAIL || process.env.SMTP_USER;
+  const emailSubject = `New Portfolio Question from ${name}`;
+  const emailText = `You have a new question from your portfolio recruitor page.\n\nName: ${name}\nEmail: ${email}\n\nQuestion:\n${question}`;
+  const emailHtml = `
+    <div style="font-family: 'Poppins', sans-serif; color: #333; line-height: 1.6;">
+      <h2 style="color: #0056b3;">New Portfolio Question</h2>
+      <p>You have received a new question from your portfolio recruitor page.</p>
+      <div style="background-color: #f4f4f4; padding: 15px; border-left: 4px solid #0056b3; margin: 20px 0;">
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+      </div>
+      <div style="background-color: #ffffff; padding: 20px; border-left: 4px solid #0056b3; margin: 20px 0;">
+        <h3 style="color: #333; margin-top: 0;">Question:</h3>
+        <p style="white-space: pre-wrap; color: #666; line-height: 1.8;">${question}</p>
+      </div>
+      <p style="color: #999; font-size: 0.9em; margin-top: 30px;">Best regards,<br>Your Portfolio Contact Form</p>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: fromAddress,
+      to: toAddress,
+      replyTo: email,
+      subject: emailSubject,
+      text: emailText,
+      html: emailHtml,
+    });
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('Email send failed:', error);
+    res.status(500).json({ ok: false, error: 'Failed to send email' });
+  }
+});
+
+// Contact form endpoint
+app.post('/api/contact', async (req, res) => {
+  const { name, email, subject, message } = req.body || {};
+
+  // Basic validation
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({ ok: false, error: 'Missing fields' });
+  }
+
+  // Compose email
+  const toAddress = process.env.TO_EMAIL || 'varnikakarri30@gmail.com';
+  const emailSubject = `Portfolio Contact: ${subject}`;
+  const emailText = `You have received a new message from your portfolio contact form.\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`;
+
+  const emailHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #0066cc;">New Contact Form Message</h2>
+      <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 20px 0;">
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+      </div>
+      <div style="background: #ffffff; padding: 20px; border-left: 4px solid #0066cc; margin: 20px 0;">
+        <h3 style="color: #333;">Message:</h3>
+        <p style="color: #666; line-height: 1.6;">${message.replace(/\n/g, '<br>')}</p>
+      </div>
+    </div>
+  `;
 
   try {
     await transporter.sendMail({
       from: process.env.FROM_EMAIL || process.env.SMTP_USER,
       to: toAddress,
       replyTo: email,
-      subject,
-      text,
+      subject: emailSubject,
+      text: emailText,
+      html: emailHtml,
     });
     res.json({ ok: true });
   } catch (error) {

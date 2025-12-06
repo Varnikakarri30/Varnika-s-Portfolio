@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-image { width: 200px; height: 150px; border: 2px solid #ccc; margin: 10px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Testing Certificate Images</h1>
+    
+    <h2>Test 1: Direct Image Paths</h2>
+    <div>
+        <h3>SQL Intermediate</h3>
+        <img src="../documents/E-Certificates%20copy/sql_intermediate.png" alt="SQL Intermediate" class="test-image" onerror="this.nextElementSibling.innerHTML='❌ FAILED TO LOAD'">
+        <div class="error"></div>
+    </div>
+    
+    <div>
+        <h3>Python Basic</h3>
+        <img src="../documents/E-Certificates%20copy/python_basic_hr_certificate.png" alt="Python Basic" class="test-image" onerror="this.nextElementSibling.innerHTML='❌ FAILED TO LOAD'">
+        <div class="error"></div>
+    </div>
+    
+    <div>
+        <h3>CSS Essentials</h3>
+        <img src="../documents/E-Certificates%20copy/css-essentials.png" alt="CSS Essentials" class="test-image" onerror="this.nextElementSibling.innerHTML='❌ FAILED TO LOAD'">
+        <div class="error"></div>
+    </div>
+    
+    <h2>Test 2: JavaScript Generated Images</h2>
+    <div id="js-images"></div>
+    
+    <script>
+        // Test JavaScript image generation
+        const testImages = [
+            '../documents/E-Certificates%20copy/sql_intermediate.png',
+            '../documents/E-Certificates%20copy/python_basic_hr_certificate.png',
+            '../documents/E-Certificates%20copy/css-essentials.png'
+        ];
+        
+        const container = document.getElementById('js-images');
+        
+        testImages.forEach((src, index) => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <h3>JS Test ${index + 1}</h3>
+                <img src="${src}" alt="Test ${index + 1}" class="test-image" onerror="this.nextElementSibling.innerHTML='❌ JS FAILED TO LOAD'">
+                <div class="error"></div>
+            `;
+            container.appendChild(div);
+        });
+        
+        console.log('Test page loaded');
+    </script>
+</body>
+</html>

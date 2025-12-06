@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varnika Karri - Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Unicorn Studio Script -->
+    <script type="text/javascript">
+    // Enhanced Unicorn Studio initialization
+    (function() {
+        console.log('Starting Unicorn Studio initialization...');
+        
+        // Check if already loaded
+        if (window.UnicornStudio) {
+            console.log('Unicorn Studio already exists');
+            initializeUnicornStudio();
+            return;
+        }
+        
+        // Load the script
+        var script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.30/dist/unicornStudio.umd.js";
+        script.async = true;
+        
+        script.onload = function() {
+            console.log('Unicorn Studio script loaded successfully');
+            setTimeout(function() {
+                initializeUnicornStudio();
+                // Hide loader after Unicorn Studio loads
+                setTimeout(function() {
+                    hideWelcomeLoader();
+                }, 800); // Show loader for 0.8 seconds
+            }, 100);
+        };
+        
+        script.onerror = function() {
+            console.error('Failed to load Unicorn Studio script');
+            showError('Failed to load Unicorn Studio script');
+            // Hide loader even if Unicorn Studio fails
+            setTimeout(function() {
+                hideWelcomeLoader();
+            }, 500);
+        };
+        
+        function hideWelcomeLoader() {
+            const loader = document.getElementById('welcomeLoader');
+            if (loader) {
+                loader.classList.add('hidden');
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                }, 500); // Wait for fade out animation
+            }
+        }
+        
+        document.head.appendChild(script);
+        
+        function initializeUnicornStudio() {
+            try {
+                if (window.UnicornStudio && typeof window.UnicornStudio.init === 'function') {
+                    console.log('Initializing Unicorn Studio...');
+                    window.UnicornStudio.init();
+                    console.log('Unicorn Studio initialized successfully');
+                    
+                    // Wait for Unicorn Studio to fully load and stabilize
+                    setTimeout(function() {
+                        var loadingDiv = document.querySelector('.unicorn-studio-component div');
+                        if (loadingDiv) {
+                            loadingDiv.style.display = 'none';
+                        }
+                        
+                        // Start content animations only after Unicorn Studio is completely loaded
+                        startContentAnimations();
+                    }, 2000);
+                } else {
+                    console.error('UnicornStudio.init not available');
+                    showError('UnicornStudio.init not available');
+                    // Still start content animations even if Unicorn Studio fails
+                    setTimeout(startContentAnimations, 500);
+                }
+            } catch (error) {
+                console.error('Error initializing Unicorn Studio:', error);
+                showError('Error: ' + error.message);
+                // Still start content animations even if Unicorn Studio fails
+                setTimeout(startContentAnimations, 1000);
+            }
+        }
+        
+        function startContentAnimations() {
+            console.log('Starting content animations...');
+            
+            // Make content visible and animate landing content first
+            var landingContent = document.querySelector('.landing-content');
+            if (landingContent) {
+                landingContent.style.visibility = 'visible';
+                landingContent.style.transition = 'all 1s ease-out';
+                setTimeout(function() {
+                    landingContent.style.opacity = '1';
+                    landingContent.style.transform = 'translateY(0)';
+                }, 200);
+            }
+            
+            // Animate individual elements with staggered timing
+            animateElement('.landing-title', 0.4);
+            animateElement('.landing-description', 0.6);
+            animateElement('.landing-buttons', 0.8);
+            
+            // Animate magic hint last
+            var magicHint = document.querySelector('.magic-hint');
+            if (magicHint) {
+                magicHint.style.visibility = 'visible';
+                magicHint.style.transition = 'all 1s ease-out';
+                setTimeout(function() {
+                    magicHint.style.opacity = '1';
+                    magicHint.style.transform = 'translateY(0)';
+                }, 1000);
+            }
+        }
+        
+        function animateElement(selector, delay) {
+            var element = document.querySelector(selector);
+            if (element) {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.8s ease-out';
+                
+                setTimeout(function() {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, delay * 1000);
+            }
+        }
+        
+        function showError(message) {
+            var component = document.querySelector('.unicorn-studio-component');
+            if (component) {
+                component.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; font-size: 1.2rem;">' + message + '</div>';
+            }
+        }
+    })();
+    </script>
+</head>
+<body>
+
+   
+
+    <!-- Landing Page -->
+    <section class="hero" id="hero">
+        <!-- Unicorn Studio Component -->
+        <div 
+            data-us-project="9nvqSAP7uAa1rXgAJ3dh" 
+            data-us-dpi="1.5"
+            data-us-scale="1.2"
+            data-us-fps="60"
+            data-us-camera-position="0,1.2,2.5"
+            data-us-camera-target="0,1.2,0"
+            data-us-auto-rotate="true"
+            data-us-auto-rotate-speed="0.5"
+            data-us-alttext="Interactive Portfolio Animation"
+            data-us-arialabel="Interactive Portfolio Animation"
+            class="unicorn-studio-component"
+            role="img"
+            aria-label="Interactive Portfolio Animation">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 1.2rem; text-align: center; z-index: 10;">
+                <!-- Welcome Loader -->
+                <div class="welcome-loader" id="welcomeLoader">
+                    <div class="loader-content">
+                        <div class="loader"></div>
+                        <h2 class="welcome-text">Welcome to my portfolio</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Landing Page Content -->
+        <div class="landing-content">
+            <div class="landing-text">
+                <h1 class="landing-title">Hi there, I'm <span class="name-highlight">Varnika</span></h1>
+                <p class="landing-description">
+                    A passionate developer, designer, and innovator creating digital experiences 
+                    that bridge creativity with technology. I love building solutions that make 
+                    a difference and bring ideas to life.
+                </p>
+                <div class="landing-buttons">
+                    <a href="recruitor.html" class="landing-btn recruitor-btn">
+                        <span>Recruitor</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="visitor.html" class="landing-btn visitor-btn">
+                        <span>Visitor</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Magic Hint Text -->
+        <div class="magic-hint">
+            <span>"move the cursor to see a magic"</span>
+        </div>
+    </section>
+
+    
+   
+
+    <!-- Custom JavaScript -->
+    <script src="../js/script.js"></script>
+    
+    <!-- Additional Unicorn Studio Initialization -->
+    <script type="text/javascript">
+    // Try to initialize Unicorn Studio after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, checking Unicorn Studio...');
+        
+        // Wait a bit more for the script to load
+        setTimeout(function() {
+            if (window.UnicornStudio && !window.UnicornStudio.isInitialized) {
+                console.log('Attempting to initialize Unicorn Studio after DOM load...');
+                try {
+                    UnicornStudio.init();
+                    window.UnicornStudio.isInitialized = true;
+                    console.log('Unicorn Studio initialized after DOM load');
+                    
+                    // Hide loading message
+                    var loadingDiv = document.querySelector('.unicorn-studio-component div');
+                    if (loadingDiv) {
+                        loadingDiv.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error('Error initializing Unicorn Studio after DOM load:', error);
+                }
+            }
+        }, 2000);
+    });
+    </script>
+</body>
+</html>

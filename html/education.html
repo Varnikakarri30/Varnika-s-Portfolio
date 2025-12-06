@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Journey - Varnika Karri</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* Education Page Specific Styles */
+        .education-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .education-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(100, 255, 218, 0.03) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .education-container {
+            position: relative;
+            z-index: 2;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 0.5rem;
+            overflow: hidden;
+        }
+
+        .education-left {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 3rem 0.5rem 2rem 1rem;
+            overflow-y: auto;
+        }
+
+        .education-header {
+            margin-bottom: 2rem;
+        }
+
+        .education-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #64FFDA, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
+        }
+
+        .education-subtitle {
+            display: none;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 1rem 0 2rem 0;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(100, 255, 218, 0.3), rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+        }
+
+        .timeline-path {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, rgba(100, 255, 218, 0.6), rgba(139, 92, 246, 0.6), rgba(59, 130, 246, 0.6));
+            border-radius: 2px;
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+            animation: drawPath 3s ease-in-out forwards;
+        }
+
+        @keyframes drawPath {
+            0% { height: 0; }
+            100% { height: 100%; }
+        }
+
+        .timeline-point {
+            position: relative;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .timeline-point.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+
+        .point-marker {
+            position: absolute;
+            left: -10px;
+            top: 15px;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.8), rgba(139, 92, 246, 0.8));
+            border: 3px solid #0a0a0a;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(100, 255, 218, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+                transform: scale(1.05);
+            }
+        }
+
+        .education-card {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-left: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            max-width: 380px;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .education-card.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .education-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .education-card:hover::before {
+            opacity: 1;
+        }
+
+        .education-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: rgba(100, 255, 218, 0.9);
+        }
+
+        .education-card .institution {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.2rem;
+        }
+
+        .education-card .location {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.3rem;
+        }
+
+        .education-card .score {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #64FFDA;
+            margin: 0.5rem 0;
+            padding: 0.4rem 1rem;
+            background-color: rgba(100, 255, 218, 0.15);
+            border-radius: 20px;
+            border: 2px solid rgba(100, 255, 218, 0.4);
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+
+        .education-card .year {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.2rem;
+        }
+
+        .education-card .map-icon {
+            position: absolute;
+            bottom: 0.8rem;
+            right: 0.8rem;
+            width: 32px;
+            height: 32px;
+            background: rgba(100, 255, 218, 0.15);
+            border: 2px solid rgba(100, 255, 218, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .education-card .map-icon:hover {
+            background: rgba(100, 255, 218, 0.25);
+            border-color: #64FFDA;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(100, 255, 218, 0.4);
+        }
+
+        .education-card .map-icon::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: #ffffff;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") no-repeat center;
+            mask-size: contain;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") no-repeat center;
+            -webkit-mask-size: contain;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(10, 10, 10, 0.9);
+            border: none;
+            color: #64FFDA;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .certifications-button {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .certifications-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            background: #64FFDA;
+            color: #0a0a0a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.4);
+        }
+
+
+        /* Right Side - Skills Section */
+        .skills-right {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            background: rgba(5, 5, 15, 0.3);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+
+        .skills-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            background: rgba(10, 10, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: visible;
+            min-height: 220px;
+        }
+
+        .skills-section:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .skills-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .skills-section:hover::before {
+            opacity: 1;
+        }
+
+        .skills-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #64FFDA, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 100%;
+            padding: 0.5rem;
+            justify-items: center;
+        }
+
+        .skill-circle {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            perspective: 1000px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px) scale(0.8);
+        }
+
+        .skill-circle.animate {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .skill-circle:hover {
+            transform: scale(1.1) rotateY(5deg);
+        }
+
+        .skill-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .skill-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 8;
+        }
+
+        .skill-circle-progress {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dasharray 2s ease-in-out;
+            filter: none;
+        }
+
+        .skill-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        .skill-label {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 0.3rem;
+            font-weight: 600;
+        }
+
+        /* Technical Skills Colors - Professional chart colors */
+        .tech-html { stroke: #22c55e; }
+        .tech-css { stroke: #3b82f6; }
+        .tech-js { stroke: #f59e0b; }
+        .tech-react { stroke: #ef4444; }
+        .tech-node { stroke: #8b5cf6; }
+        .tech-express { stroke: #06b6d4; }
+
+        /* Coding Skills Colors - Professional chart colors */
+        .code-python { stroke: #f59e0b; }
+        .code-java { stroke: #ef4444; }
+        .code-cpp { stroke: #3b82f6; }
+        .code-c { stroke: #8b5cf6; }
+        .code-sql { stroke: #06b6d4; }
+
+        /* Communication Skills Colors - Professional chart colors */
+        .comm-english { stroke: #22c55e; }
+        .comm-presentation { stroke: #3b82f6; }
+
+
+        .pie-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .skills-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.2rem 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .legend-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .education-container {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow: visible;
+            }
+
+            .education-left {
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+            }
+
+            .skills-right {
+                height: auto;
+            }
+
+            .skills-section {
+                margin: 1rem 0;
+            }
+
+            .timeline-container {
+                overflow: visible;
+                padding-right: 0;
+            }
+
+            .education-title {
+                font-size: 2.2rem;
+            }
+
+            .timeline-line,
+            .timeline-path {
+                left: 15px;
+            }
+
+            .point-marker {
+                left: 5px;
+            }
+
+            .education-card {
+                margin-left: 2.5rem;
+                padding: 0.8rem;
+            }
+
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="education-page">
+        <!-- Back Button -->
+        <a href="recruitor.html" class="back-button">
+            ← Backtrack 
+        </a>
+
+    
+        <div class="education-container">
+            <!-- Left Half: Skills Section -->
+            <div class="skills-right">
+                <!-- Technical Skills -->
+                <div class="skills-section">
+                    <h3 class="skills-title">Technical</h3>
+                    <div class="skills-grid">
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress tech-html" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="85"></circle>
+                            </svg>
+                            <div class="skill-percentage">85%</div>
+                            <div class="skill-label">HTML</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress tech-css" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="80"></circle>
+                            </svg>
+                            <div class="skill-percentage">80%</div>
+                            <div class="skill-label">CSS</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress tech-js" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="75"></circle>
+                            </svg>
+                            <div class="skill-percentage">75%</div>
+                            <div class="skill-label">JavaScript</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress tech-react" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="75"></circle>
+                            </svg>
+                            <div class="skill-percentage">75%</div>
+                            <div class="skill-label">React</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coding Skills -->
+                <div class="skills-section">
+                    <h3 class="skills-title">Coding</h3>
+                    <div class="skills-grid">
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress code-python" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="65"></circle>
+                            </svg>
+                            <div class="skill-percentage">65%</div>
+                            <div class="skill-label">Python</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress code-java" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="55"></circle>
+                            </svg>
+                            <div class="skill-percentage">55%</div>
+                            <div class="skill-label">Java</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress code-cpp" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="70"></circle>
+                            </svg>
+                            <div class="skill-percentage">70%</div>
+                            <div class="skill-label">C++</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress code-sql" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="85"></circle>
+                            </svg>
+                            <div class="skill-percentage">85%</div>
+                            <div class="skill-label">SQL</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communication Skills -->
+                <div class="skills-section">
+                    <h3 class="skills-title">Communication</h3>
+                    <div class="skills-grid">
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress comm-english" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="95"></circle>
+                            </svg>
+                            <div class="skill-percentage">95%</div>
+                            <div class="skill-label">English</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress comm-presentation" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="88"></circle>
+                            </svg>
+                            <div class="skill-percentage">88%</div>
+                            <div class="skill-label">Presentation</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress comm-english" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="85"></circle>
+                            </svg>
+                            <div class="skill-percentage">85%</div>
+                            <div class="skill-label">Writing</div>
+                        </div>
+                        <div class="skill-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="skill-circle-bg" cx="50" cy="50" r="40"></circle>
+                                <circle class="skill-circle-progress comm-presentation" cx="50" cy="50" r="40" stroke-dasharray="0 251.2" data-percentage="82"></circle>
+                            </svg>
+                            <div class="skill-percentage">82%</div>
+                            <div class="skill-label">Public Speaking</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Half: Education Journey -->
+            <div class="education-left">
+                <!-- Education Header -->
+                <div class="education-header">
+                    <h1 class="education-title">My Education Journey</h1>
+                    <p class="education-subtitle">
+                        A continuous path of learning and growth, from school to university, 
+                        building the foundation for my career in technology and innovation.
+                    </p>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline-container">
+                <!-- Timeline Line -->
+                <div class="timeline-line"></div>
+                <div class="timeline-path"></div>
+
+                <!-- Point A: Aditya University (B.Tech) -->
+                <div class="timeline-point" data-delay="0">
+                    <div class="point-marker"></div>
+                    <div class="education-card">
+                        <h3>Bachelor's Degree</h3>
+                        <div class="institution">Aditya University</div>
+                        <div class="location">Surampalem, India</div>
+                        <div class="score">CGPA: 9.48/10</div>
+                        <div class="year">2022 - 2026</div>
+                        <a href="https://maps.google.com/?q=Aditya+University+Surampalem+Andhra+Pradesh" target="_blank" class="map-icon">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Point B: Narayana Inter College -->
+                <div class="timeline-point" data-delay="1">
+                    <div class="point-marker"></div>
+                    <div class="education-card">
+                        <h3>Intermediate</h3>
+                        <div class="institution">Narayana Inter College</div>
+                        <div class="location">Kakinada, India</div>
+                        <div class="score">CGPA: 93.2%</div>
+                        <div class="year">2020 - 2022</div>
+                        <a href="https://maps.google.com/?q=Narayana+Inter+College+Kakinada+Andhra+Pradesh" target="_blank" class="map-icon">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Point C: St. Joseph Convent School -->
+                <div class="timeline-point" data-delay="2">
+                    <div class="point-marker"></div>
+                    <div class="education-card">
+                        <h3>High School</h3>
+                        <div class="institution">St. Joseph Convent School</div>
+                        <div class="location">Kakinada, India</div>
+                        <div class="score">CGPA: 87%</div>
+                        <div class="year">2018 - 2020</div>
+                        <a href="https://maps.google.com/?q=St+Joseph+Convent+School+Kakinada+Andhra+Pradesh" target="_blank" class="map-icon">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sequential scroll-based animations for timeline
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelinePoints = document.querySelectorAll('.timeline-point');
+            let currentIndex = 0;
+            let isAnimating = false;
+
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !isAnimating) {
+                        startSequentialAnimation();
+                    }
+                });
+            }, observerOptions);
+
+            function startSequentialAnimation() {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                // Animate timeline path first
+                const timelinePath = document.querySelector('.timeline-path');
+                timelinePath.style.animation = 'drawPath 2s ease-in-out forwards';
+
+                // Animate points one by one
+                animateNextPoint();
+            }
+
+            function animateNextPoint() {
+                if (currentIndex < timelinePoints.length) {
+                    const point = timelinePoints[currentIndex];
+                    
+                    setTimeout(() => {
+                        point.classList.add('animate');
+                        currentIndex++;
+                        
+                        // Continue to next point after a delay
+                        setTimeout(() => {
+                            animateNextPoint();
+                        }, 600); // 600ms delay between each point
+                    }, 500); // Initial delay before first point
+                } else {
+                    isAnimating = false;
+                }
+            }
+
+            // Observe the first timeline point to start the sequence
+            if (timelinePoints.length > 0) {
+                observer.observe(timelinePoints[0]);
+            }
+
+            // Add hover effects to cards
+            document.querySelectorAll('.education-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Scroll-based animations for education cards
+            const educationCards = document.querySelectorAll('.education-card');
+            const educationObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate');
+                        }, index * 200); // Stagger animation by 200ms
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            educationCards.forEach(card => {
+                educationObserver.observe(card);
+            });
+
+            // Circular progress bar animations
+            function animateCircularProgress(circle, percentage) {
+                const circumference = 2 * Math.PI * 40; // radius = 40
+                const strokeDasharray = (percentage / 100) * circumference;
+                
+                circle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
+                
+                // Animate percentage counter
+                const percentageElement = circle.parentElement.querySelector('.skill-percentage');
+                let currentPercentage = 0;
+                const increment = percentage / 50; // 50 steps for smooth animation
+                
+                const counter = setInterval(() => {
+                    currentPercentage += increment;
+                    if (currentPercentage >= percentage) {
+                        currentPercentage = percentage;
+                        clearInterval(counter);
+                    }
+                    percentageElement.textContent = Math.round(currentPercentage) + '%';
+                }, 40); // 40ms per step = 2 seconds total
+            }
+
+            // Scroll-based animations for skill circles
+            const skillCircles = document.querySelectorAll('.skill-circle');
+            const skillObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate');
+                            const progressCircle = entry.target.querySelector('.skill-circle-progress');
+                            const percentage = parseInt(progressCircle.getAttribute('data-percentage'));
+                            animateCircularProgress(progressCircle, percentage);
+                        }, index * 100); // Stagger animation by 100ms
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            skillCircles.forEach(circle => {
+                skillObserver.observe(circle);
+            });
+
+            // Add click effects to legend items
+            document.querySelectorAll('.legend-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Add a subtle animation when clicked
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+
+            // Add entrance animations for skills sections
+            const skillsSections = document.querySelectorAll('.skills-section');
+            const skillsObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            skillsSections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'all 0.6s ease';
+                skillsObserver.observe(section);
+            });
+
+        });
+    </script>
+</body>
+</html>

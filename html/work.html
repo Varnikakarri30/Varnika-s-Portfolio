@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Work - Varnika Karri</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Particle.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    
+    <style>
+        /* Work Page Background - Black with very dark violet at bottom 10% */
+        body {
+            background: linear-gradient(to bottom, #000000 0%, #000000 90%, #0d0019 95%, #1a0033 100%) !important;
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        /* Make project cards square and black */
+        .project-card {
+            background: rgba(0, 0, 0, 0.85) !important;
+            border-radius: 0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .project-card:hover {
+            background: rgba(0, 0, 0, 0.95) !important;
+        }
+        
+        /* Remove violet from overlay - make it black */
+        .project-overlay {
+            background: rgba(0, 0, 0, 0.85) !important;
+        }
+        
+        /* Make project images square */
+        .project-image {
+            border-radius: 0 !important;
+        }
+        
+        /* Keep particles background transparent */
+        .particles-background {
+            background: transparent !important;
+        }
+        
+        /* Ensure projects showcase has black background */
+        .projects-showcase {
+            background: transparent !important;
+        }
+        
+        /* Work hero section - keep black */
+        .work-hero {
+            background: transparent !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Icons Bar -->
+    <div class="icons-bar">
+        <div class="icon-item" onclick="window.location.href='index.html'">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Home</span>
+        </div>
+        
+        <div class="icon-item" onclick="window.location.href='education.html'">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 10V6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V10C2 11.1 2.9 12 4 12H20C21.1 12 22 11.1 22 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 10L12 16L22 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Education</span>
+        </div>
+        
+        <div class="icon-item" onclick="window.location.href='new_certifications.html'">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Certifications</span>
+        </div>
+        
+        <div class="icon-item active" onclick="window.location.href='work.html'">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H20C20.5304 3 21.0391 3.21071 21.4142 3.58579C21.7893 3.96086 22 4.46957 22 5V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 8L8 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 16L8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Work</span>
+        </div>
+        
+        
+        <div class="icon-item" onclick="window.location.href='contact.html'">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="icon-label">Contact</span>
+        </div>
+    </div>
+
+        <!-- Particle.js Background -->
+        <div id="tsparticles" class="particles-background"></div>
+
+    <!-- Work Page Header -->
+    <section class="work-hero">
+        <div class="work-hero-content">
+            <h1 class="work-title">My Work</h1>
+            <p class="work-subtitle">Websites and animations I've built</p>
+        </div>
+    </section>
+
+    <!-- Projects Showcase -->
+    <section class="projects-showcase">
+        <div class="section-container">
+            <div class="projects-grid">
+                <!-- Project 1 - Lumix -->
+                <div class="project-card lumix-card">
+                    <div class="project-image">
+                        <img src="../images/lumix_preview_image.png" alt="Lumix Development Platform" class="project-preview">
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <h4>LUMIX Development Platform</h4>
+                                <p>Revolutionizing Development with AI</p>
+                                <div class="overlay-stats">
+                                    <span>10K+ Developers</span>
+                                    <span>500+ Projects</span>
+                                    <span>99% Satisfaction</span>
+                                </div>
+            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-name">Lumix Development Platform</h3>
+                        <p class="project-description">AI-powered development platform with futuristic design</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JS</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://lumix-website-gamma.vercel.app" target="_blank" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 - Grado -->
+                <div class="project-card grado-card">
+                    <div class="project-image">
+                        <img src="../images/grado_preview.png" alt="Grado Education Platform" class="project-preview">
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <h4>Grado Education Platform</h4>
+                                <p>Modern Educational Experience</p>
+                                <div class="overlay-stats">
+                                    <span>Learning Management</span>
+                                    <span>Student Portal</span>
+                                    <span>Educational Tools</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-name">Grado Education Platform</h3>
+                        <p class="project-description">A comprehensive educational platform providing modern learning experiences with intuitive design and powerful features.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Education</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://grado-education-website.vercel.app/" target="_blank" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Live Demo
+                            </a>
+                            <a href="#" class="project-link">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 - CampX -->
+                <div class="project-card campx-card">
+                    <div class="project-image">
+                        <img src="../images/CampX_project_preview.png" alt="CampX Campus Platform" class="project-preview">
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <h4>CampX Campus Platform</h4>
+                                <p>Where Campus Meets Experience</p>
+                                <div class="overlay-stats">
+                                    <span>Campus Community</span>
+                                    <span>Clubs & Events</span>
+                                    <span>Talent Showcase</span>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-name">CampX Campus Platform</h3>
+                        <p class="project-description">Campus community platform with clubs, events, talents showcase, and interactive features</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://camp-x-platfrom.vercel.app" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+                            <a href="https://github.com/Varnikakarri30/CampX-platfrom" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 - LeafLyf -->
+                <div class="project-card leaflyf-card">
+                    <div class="leaflyf-showcase">
+                        <div class="leaflyf-image-section">
+                            <img src="../images/leaflyf1.png" alt="LeafLyf Plant Health Detection" class="leaflyf-full-image">
+                            <p class="leaflyf-caption">AI-Powered Plant Health Detection Interface</p>
+                        </div>
+                        
+                        <div class="leaflyf-image-section">
+                            <img src="../images/leaflyf2.png" alt="LeafLyf Tree Recommendations" class="leaflyf-full-image">
+                            <p class="leaflyf-caption">Smart Tree Recommendation System</p>
+                        </div>
+                        
+                        <div class="leaflyf-image-section">
+                            <img src="../images/leaflyf3.png" alt="LeafLyf AI Analysis" class="leaflyf-full-image">
+                            <p class="leaflyf-caption">Detailed AI Analysis & Disease Diagnosis</p>
+                    </div>
+                </div>
+
+                    <div class="project-info-bottom">
+                        <h3 class="project-name">LeafLyf Plant Disease Detector</h3>
+                        <p class="project-description">AI-powered plant disease identification and health analysis platform using advanced machine learning technology for accurate plant diagnosis.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">AI/ML</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Computer Vision</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animation 2 - Intermediate
+                <div class="animation-card intermediate" data-level="intermediate">
+                    <div class="animation-header">
+                        <div class="animation-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="animation-info">
+                            <h3 class="animation-title">CSS Keyframes & Transform</h3>
+                            <span class="animation-period">Mid 2023</span>
+                        </div>
+                    </div>
+                    <div class="animation-content">
+                        <p class="animation-description">Explored CSS keyframes, transforms, and created more complex animations with multiple properties.</p>
+                        <div class="animation-demo">
+                            <div class="demo-box intermediate-demo">Watch me spin!</div>
+                        </div>
+                        <div class="animation-skills">
+                            <span class="skill-tag">CSS Keyframes</span>
+                            <span class="skill-tag">Transform</span>
+                            <span class="skill-tag">Animation Timing</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+            </div>
+        </div>
+    </section>
+
+    
+
+    <-- Custom JavaScript -->
+    <script src="../js/script.js"></script>
+    
+    <!-- Work Page Specific JavaScript -->
+    <script>
+        // Animation demos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Basic demo - hover effects
+            const basicDemo = document.querySelector('.basic-demo');
+            if (basicDemo) {
+                basicDemo.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.2) rotate(5deg)';
+                });
+                basicDemo.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                });
+            }
+
+            // Intermediate demo - spinning animation
+            const intermediateDemo = document.querySelector('.intermediate-demo');
+            if (intermediateDemo) {
+                setInterval(function() {
+                    intermediateDemo.style.transform = 'rotate(360deg)';
+                    setTimeout(function() {
+                        intermediateDemo.style.transform = 'rotate(0deg)';
+                    }, 500);
+                }, 3000);
+            }
+
+            // Advanced demo - drag interaction
+            const advancedDemo = document.querySelector('.advanced-demo');
+            if (advancedDemo) {
+                let isDragging = false;
+                let startX, startY;
+                
+                advancedDemo.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        const deltaX = e.clientX - startX;
+                        const deltaY = e.clientY - startY;
+                        advancedDemo.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(${deltaX * 0.1}deg)`;
+                    }
+                });
+                
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                    advancedDemo.style.transition = 'all 0.3s ease';
+                    setTimeout(function() {
+                        advancedDemo.style.transform = 'translate(0, 0) rotate(0deg)';
+                        advancedDemo.style.transition = 'none';
+                    }, 100);
+                });
+            }
+
+            // Expert demo - 3D rotation
+            const expertDemo = document.querySelector('.expert-demo');
+            if (expertDemo) {
+                expertDemo.addEventListener('click', function() {
+                    this.style.transform = 'rotateY(360deg) rotateX(360deg) scale(1.5)';
+                    setTimeout(function() {
+                        expertDemo.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+
+    <!-- Particle.js Configuration -->
+    <script>
+        async function loadParticles() {
+            await tsParticles.load("tsparticles", {
+                background: {
+                    color: {
+                        value: "transparent"
+                    }
+                },
+                fpsLimit: 60,
+                interactivity: {
+                    events: {
+                        onClick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        onHover: {
+                            enable: true,
+                            mode: "repulse"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        push: {
+                            quantity: 3
+                        },
+                        repulse: {
+                            distance: 150,
+                            duration: 0.4
+                        }
+                    }
+                },
+                particles: {
+                    color: {
+                        value: ["#ffffff", "#e0e0e0", "#c0c0c0"]
+                    },
+                    links: {
+                        color: "#ffffff",
+                        distance: 120,
+                        enable: true,
+                        opacity: 0.2,
+                        width: 1,
+                        triangles: {
+                            enable: true,
+                            opacity: 0.05
+                        }
+                    },
+                    move: {
+                        direction: "none",
+                        enable: true,
+                        outModes: {
+                            default: "bounce"
+                        },
+                        random: false,
+                        speed: 1.5,
+                        straight: false,
+                        trail: {
+                            enable: false
+                        }
+                    },
+                    number: {
+                        density: {
+                            enable: true,
+                            area: 1000
+                        },
+                        value: 60
+                    },
+                    opacity: {
+                        value: 0.4,
+                        random: {
+                            enable: true,
+                            minimumValue: 0.2
+                        }
+                    },
+                    rotate: {
+                        value: {
+                            min: 0,
+                            max: 360
+                        },
+                        direction: "random",
+                        move: true,
+                        animation: {
+                            enable: true,
+                            speed: 5
+                        }
+                    },
+                    shape: {
+                        type: ["polygon", "triangle", "star"],
+                        options: {
+                            polygon: {
+                                sides: 6
+                            },
+                            triangle: {
+                                sides: 3
+                            },
+                            star: {
+                                sides: 5,
+                                inset: 2
+                            }
+                        }
+                    },
+                    size: {
+                        value: { min: 3, max: 8 },
+                        random: {
+                            enable: true,
+                            minimumValue: 2
+                        },
+                        animation: {
+                            enable: true,
+                            speed: 3,
+                            minimumValue: 2,
+                            sync: false
+                        }
+                    }
+                },
+                detectRetina: true,
+                themes: [
+                    {
+                        name: "light",
+                        default: {
+                            value: true,
+                            mode: "light"
+                        },
+                        options: {
+                            background: {
+                                color: {
+                                    value: "transparent"
+                                }
+                            },
+                            particles: {
+                                color: {
+                                    value: ["#ffffff", "#e0e0e0", "#c0c0c0"]
+                                }
+                            }
+                        }
+                    }
+                ]
+            });
+        }
+
+        // Load particles when page loads
+        loadParticles();
+    </script>
+</body>
+</html>
+
