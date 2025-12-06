@@ -20,7 +20,7 @@ app.use(helmet({
   contentSecurityPolicy: false, // Allow inline scripts for Unicorn Studio
 }));
 app.use(express.json());
-// CORS configuration - allow localhost and 127.0.0.1 from any port
+// CORS configuration - allow all Vercel deployments and localhost
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, curl, etc.)
@@ -31,13 +31,26 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // Also check environment variable
-    const allowedOrigins = process.env.CORS_ORIGIN?.split(',').map(o => o.trim()) || [];
-    if (allowedOrigins.includes(origin)) {
+    // Allow all Vercel deployments
+    if (origin.match(/^https:\/\/.*\.vercel\.app$/)) {
       return callback(null, true);
     }
     
-    // Allow all for development (remove in production)
+    // Also check environment variable
+    const allowedOrigins = process.env.CORS_ORIGIN?.split(',').map(o => o.trim()) || [];
+    for (const allowed of allowedOrigins) {
+      if (allowed.includes('*')) {
+        // Wildcard support
+        const pattern = allowed.replace(/\*/g, '.*');
+        if (origin.match(new RegExp(`^${pattern}$`))) {
+          return callback(null, true);
+        }
+      } else if (origin === allowed) {
+        return callback(null, true);
+      }
+    }
+    
+    // Allow all for production
     callback(null, true);
   },
   credentials: true
