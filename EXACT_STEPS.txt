@@ -1,0 +1,57 @@
+═══════════════════════════════════════════════════════════════
+  📍 EXACT STEPS TO FIND "DEPLOYMENT PROTECTION"
+═══════════════════════════════════════════════════════════════
+
+FOLLOW THESE EXACT STEPS:
+
+1. Go to: https://vercel.com/dashboard
+
+2. You'll see a list of your projects
+   - Look for project named: "server"
+   - Click on it
+
+3. After clicking "server", you'll see tabs at the TOP:
+   [Overview] [Deployments] [Settings] [Analytics] [Logs]
+   
+   → Click on "Settings" tab
+
+4. In the Settings page, look at the LEFT SIDE MENU:
+   
+   General
+   Environment Variables  
+   Domains
+   → Deployment Protection  ← CLICK THIS!
+   Git
+   Security
+   Notifications
+   Analytics
+   etc.
+
+5. Click "Deployment Protection" (in left sidebar)
+
+6. You'll see options like:
+   ☐ Standard Protection
+   ☐ All Deployments  
+   ☐ (Legacy) Only Preview Deployments
+   
+   → Select "Only Preview Deployments" OR
+   → Find option that says "None" or "Disable"
+   → Or uncheck all options
+
+7. Click "Save" button
+
+8. Go to "Deployments" tab
+
+9. Click "..." (three dots) → "Redeploy"
+
+═══════════════════════════════════════════════════════════════
+
+IF YOU STILL CAN'T FIND IT:
+
+Try this:
+- Settings → Security (look there)
+- Settings → General → scroll down for "Protection"
+- Or tell me what options you see in Settings!
+
+═══════════════════════════════════════════════════════════════
+
