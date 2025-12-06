@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "public": false,
   "rewrites": [
     {
       "source": "/css/:path*",
@@ -23,8 +22,8 @@
       "destination": "/documents/:path*"
     },
     {
-      "source": "/:path*.html",
-      "destination": "/html/:path*.html"
+      "source": "/html/:path*",
+      "destination": "/html/:path*"
     },
     {
       "source": "/",
