@@ -1,40 +1,34 @@
 {
   "version": 2,
-  "builds": [
+  "public": false,
+  "rewrites": [
     {
-      "src": "html/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/css/(.*)",
-      "dest": "/css/$1"
+      "source": "/css/:path*",
+      "destination": "/css/:path*"
     },
     {
-      "src": "/js/(.*)",
-      "dest": "/js/$1"
+      "source": "/js/:path*",
+      "destination": "/js/:path*"
     },
     {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
+      "source": "/images/:path*",
+      "destination": "/images/:path*"
     },
     {
-      "src": "/videos/(.*)",
-      "dest": "/videos/$1"
+      "source": "/videos/:path*",
+      "destination": "/videos/:path*"
     },
     {
-      "src": "/documents/(.*)",
-      "dest": "/documents/$1"
+      "source": "/documents/:path*",
+      "destination": "/documents/:path*"
     },
     {
-      "src": "/(.*)",
-      "dest": "/html/$1"
+      "source": "/:path*.html",
+      "destination": "/html/:path*.html"
     },
     {
-      "src": "/",
-      "dest": "/html/index.html"
+      "source": "/",
+      "destination": "/html/index.html"
     }
   ]
 }
-
