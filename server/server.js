@@ -149,7 +149,20 @@ app.post('/api/question', async (req, res) => {
     res.json({ ok: true });
   } catch (error) {
     console.error('Email send failed:', error);
-    res.status(500).json({ ok: false, error: 'Failed to send email' });
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      responseCode: error.responseCode,
+      response: error.response,
+      stack: error.stack
+    });
+    res.status(500).json({ 
+      ok: false, 
+      error: 'Failed to send email',
+      details: error.message || 'Unknown error',
+      code: error.code || 'NO_CODE'
+    });
   }
 });
 
@@ -194,7 +207,20 @@ app.post('/api/contact', async (req, res) => {
     res.json({ ok: true });
   } catch (error) {
     console.error('Email send failed:', error);
-    res.status(500).json({ ok: false, error: 'Failed to send email' });
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      responseCode: error.responseCode,
+      response: error.response,
+      stack: error.stack
+    });
+    res.status(500).json({ 
+      ok: false, 
+      error: 'Failed to send email',
+      details: error.message || 'Unknown error',
+      code: error.code || 'NO_CODE'
+    });
   }
 });
 
