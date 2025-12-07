@@ -1,0 +1,100 @@
+# Netlify Configuration for Varnika's Portfolio
+
+[build]
+  # Publish directory (root contains html, css, js, images folders)
+  publish = "."
+  # No build command needed for static site
+
+# Redirects and rewrites
+[[redirects]]
+  # Redirect root to index.html
+  from = "/"
+  to = "/html/index.html"
+  status = 200
+
+# Rewrite rules for assets
+[[redirects]]
+  from = "/css/*"
+  to = "/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/js/*"
+  to = "/js/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/images/*"
+  to = "/images/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/videos/*"
+  to = "/videos/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/documents/*"
+  to = "/documents/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/html/*"
+  to = "/html/:splat"
+  status = 200
+
+# Handle HTML files without extension
+[[redirects]]
+  from = "/recruitor"
+  to = "/html/recruitor.html"
+  status = 200
+
+[[redirects]]
+  from = "/visitor"
+  to = "/html/visitor.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/html/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/work"
+  to = "/html/work.html"
+  status = 200
+
+[[redirects]]
+  from = "/education"
+  to = "/html/education.html"
+  status = 200
+
+[[redirects]]
+  from = "/wisteria"
+  to = "/html/wisteria.html"
+  status = 200
+
+# Headers for security and CORS
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
