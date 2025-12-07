@@ -908,6 +908,8 @@
                 }
                 
                 const result = await response.json();
+                
+                console.log('Backend response:', result);
 
                 if (result.ok) {
                     // Success message
@@ -930,6 +932,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 console.error('Error details:', error.message);
+                console.error('Full error:', error);
                 submitBtn.innerHTML = '<span>Error - Try Again</span>';
                 submitBtn.style.background = 'linear-gradient(135deg, #660000 0%, #880000 100%)';
                 
