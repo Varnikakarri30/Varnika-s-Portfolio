@@ -36,7 +36,12 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // Specifically allow the frontend URL
+    // Allow all Netlify deployments
+    if (origin.match(/^https:\/\/.*\.netlify\.app$/)) {
+      return callback(null, true);
+    }
+    
+    // Specifically allow the frontend URL (Vercel)
     if (origin === 'https://varnika-s-portfolio-web.vercel.app') {
       return callback(null, true);
     }
